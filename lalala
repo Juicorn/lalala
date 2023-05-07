@@ -1,0 +1,454 @@
+#include<iostream>
+
+#include<stdlib.h>
+
+#include<string.h>
+
+#include<cstring>
+
+#include<Windows.h>
+
+using namespace std;                       
+
+//添加字符串
+
+char* strcat1(char* str1, char* str2)
+
+{
+
+    char* temp = str1;//将str1赋值给temp，然后对temp操作，保存str1首地址，方便返回
+
+    if (str1 != nullptr && str2 != nullptr)
+
+    {
+
+        while (*temp)//以str1末字符的地址作为添加字符的开始
+
+        {
+
+            temp++;
+
+        }
+
+        while (*str2)
+
+              {
+
+                     *temp++=*str2++;
+
+              }
+
+        return str1;
+
+    }
+
+}
+
+void cat()
+
+{
+
+    char* string1 = new char[100]();
+
+    cout << "请输入源字符串：";
+
+    cin >> string1;
+
+    char* string2 = new char[100]();
+
+    cout << "请输入添加的字符串：";
+
+    cin >> string2;
+
+    cout << "添加的结果: " << strcat1(string1, string2) << endl;
+
+    delete[] string1;
+
+    delete[] string2;
+
+}
+
+ 
+
+//添加指定长度字符串
+
+char* strncat1(char* str1,char* str2, int n)
+
+{
+
+    char* temp = str1;
+
+    if (str1 != nullptr && str2 != nullptr)
+
+    {
+
+        while (*temp)//以str1末字符的地址作为添加字符的开始
+
+        {
+
+            temp++;
+
+        }
+
+        while (*str2&&n--)//避免n的特殊值
+
+              {
+
+                     *temp++=*str2++;
+
+              }
+
+        return str1;
+
+    }
+
+}
+
+void ncat()
+
+{
+
+    char* string1 = new char[100]();
+
+    cout << "请输入源字符串：";
+
+    cin >> string1;
+
+ 
+
+    char* string2 = new char[100]();
+
+    cout << "请输入添加的字符串：";
+
+    cin >> string2;
+
+    int n(0);//添加的字符长度
+
+    cout << "请输入添加的字符长度：";
+
+    cin >> n;
+
+    printf("%s" ,strncat1(string1, string2, n));
+
+    delete[] string1;
+
+    delete[] string2;
+
+}
+
+ 
+
+//统计字符串长度
+
+int strlen1(char* p)
+
+{
+
+    int n(0);//字符串长度
+
+    if (p != nullptr)
+
+    {
+
+        while (*p++ != '\0')
+
+        {
+
+            n++;
+
+        }
+
+    }
+
+    return n;
+
+}
+
+void len()
+
+{
+
+       char* string1 = new char[100]();
+
+    cout << "请输入字符串：";
+
+    cin >> string1;
+
+    cout << "该字符串长度为：" << strlen1(string1) << endl;
+
+    delete[] string1;
+
+}
+
+ 
+
+//比较字符串
+
+int strcmp1(char* str1, char* str2)
+
+{
+
+    if (str1 != nullptr && str2 != nullptr)
+
+    {
+
+        while (*str1 == *str2)//逐个比较，若相等则继续比较
+
+        {
+
+            if (*str1 == '\0')//两者相等返回0
+
+                return 0;
+
+            str1++;
+
+            str2++;
+
+        }
+
+        if(*str1 > *str2)return 1;//1为str1大  -1为str2大
+
+              else return -1;
+
+    }
+
+}
+
+void cmp()
+
+{
+
+    char* string1 = new char[100]();
+
+    cout << "请输入字符串1：";
+
+    cin >> string1;
+
+    char* string2 = new char[100]();
+
+    cout << "请输入字符串2：";
+
+    cin >> string2;
+
+    cout << "比较结果为：" << strcmp1(string1, string2) << endl;
+
+    delete[] string1;
+
+    delete[] string2;
+
+}
+
+ 
+
+//有大小写时比较字符串
+
+int strcasecmp1(const char* str1, const char* str2)
+
+{
+
+    char s1, s2;            //存储转化后的字符
+
+    do {
+
+        s1 = tolower(*str1++);//将大写的字母转换成小写
+
+        s2 = tolower(*str2++);
+
+    } while (s1 == s2 && s1 != 0);
+
+       {
+
+       return 0;
+
+       }
+
+       if(s1>s2) return 1;//1为str1大  -1为str2大
+
+       else return -1;
+
+}
+
+void casecmp()
+
+{
+
+    char* string1 = new char[100]();
+
+    cout << "请输入字符串1：";
+
+    cin >> string1;
+
+    char* string2 = new char[100]();
+
+    cout << "请输入字符串2：";
+
+    cin >> string2;
+
+    cout << "比较结果为：" << strcasecmp1(string1, string2);
+
+    delete[] string1;
+
+    delete[] string2;
+
+}
+
+//查找子字符串
+
+char* strstr1(const char* str1, const char* str2)
+
+{
+
+    if (*str2)//首先要有查找的字符串，否则没有意义直接返回nullptr
+
+    {
+
+        while (*str1)//然后查找源字符串要有，否则同样返回nullptr
+
+        {
+
+            for (int n(0); *(str1 + n) == *(str2 + n); n++)
+
+            {
+
+                if (!*(str2 + n + 1))//注意'\0'所以+1   
+
+                {
+
+                    return (char*)str1; //强制转换类型为char*,因为函数返回的时char*类型
+
+                }
+
+            }
+
+            str1++;//不管两者字符匹配不匹配都要往下走
+
+        }
+
+        return nullptr;
+
+    }
+
+    return nullptr;
+
+}
+
+void str()
+
+{
+
+    char* string1 = new char[100]();//源字符串
+
+    cout << "请输入查找的源字符串：";
+
+    cin >> string1;
+
+    char* string2 = new char[100]();//查找的字符串
+
+    cout << "请输入查找的字符：";
+
+    cin >> string2;
+
+    cout << "查找结果为：" << strstr1(string1, string2) << endl;
+
+    delete[] string1;
+
+    delete[] string2;
+
+}
+
+ 
+
+//菜单
+
+void menu()
+
+{
+
+    cout << "\t\t*********************字符串函数操作菜单***************************\n";
+
+    cout << "\t\t*       1.添加字符串                                             *\n";
+
+    cout << "\t\t*                                                                *\n";
+
+    cout << "\t\t*       2.连接字符串                                             *\n";
+
+    cout << "\t\t*                                                                *\n";
+
+    cout << "\t\t*       3.取字符串长度                                           *\n";
+
+    cout << "\t\t*                                                                *\n";
+
+    cout << "\t\t*       4.比较字符串                                             *\n";
+
+    cout << "\t\t*                                                                *\n";
+
+    cout << "\t\t*       5.忽略大小比较字符串字符串                               *\n";
+
+    cout << "\t\t*                                                                *\n";
+
+       cout << "\t\t*       6.查找字符串                                             *\n";
+
+       cout << "\t\t*                                                                *\n";
+
+       cout << "\t\t*       0.退出                                                   *\n";
+
+    cout << "\t\t******************************************************************\n";
+
+    cout << "\t\t请输入指令(0-6): ";
+
+}
+
+int main()
+
+{
+
+       system("color F0");
+
+    int num;        //用来调用函数
+
+       num=0;
+
+    while (1)
+
+    {
+
+        menu();        //调用菜单
+
+        cin >> num;
+
+        system("cls");//清屏
+
+        switch (num)
+
+        {
+
+        case 1:  cat();    break;
+
+        case 2:  ncat();   break;
+
+        case 3:  len();    break;
+
+        case 4:  cmp();    break;
+
+        case 5:  casecmp(); break;
+
+        case 6: str();    break;
+
+        case 0: cout << "谢谢使用！\n\n";
+
+            return 0;
+
+        default:cout << "\n无效的指令!\n\n\n";//输入0-6以外的报错
+
+        }
+
+        system("pause");
+
+        system("cls");  //清屏2
+
+    }
+
+    return 0;
+
+}
+
